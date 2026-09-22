@@ -1,14 +1,16 @@
 # Agent Constraint Check
 
+Apex Nexus Australis Pty Ltd
+
 GitHub App that fails a pull request when an agent weakens the quality bar.
 
 One installation covers one repository. The check looks for skipped tests, stripped assertions, silenced lints, and unimplemented stubs.
 
 ## Status
 
-The app is registered. It does not post checks yet. That starts when the service and webhook are connected.
+The app is installed on this repository. It does not post checks yet. That starts when the service and webhook are connected.
 
-Stripe test billing exists. Live charges wait on an Australian Business Number.
+Stripe is set up for Apex Nexus Australis Pty Ltd. Live charges follow Stripe's review of that account.
 
 ## Permissions
 

@@ -165,13 +165,18 @@ function loadConfig() {
   const envFile = process.env.ACC_ENV
     || path.join(os.homedir(), ".agent-constraint-check", "service.env")
   loadEnvFile(envFile)
-  const keyPath = requireEnv("GITHUB_PRIVATE_KEY_PATH")
-  if (!fs.existsSync(keyPath)) {
-    throw new Error(`Private key file not found at ${keyPath}`)
+  let privateKey = process.env.GITHUB_PRIVATE_KEY
+  if (!privateKey) {
+    const keyPath = requireEnv("GITHUB_PRIVATE_KEY_PATH")
+    if (!fs.existsSync(keyPath)) {
+      throw new Error(`Private key file not found at ${keyPath}`)
+    }
+    privateKey = fs.readFileSync(keyPath, "utf8")
   }
+  privateKey = privateKey.replace(/\\n/g, "\n")
   return {
     appId: requireEnv("GITHUB_APP_ID"),
-    privateKey: fs.readFileSync(keyPath, "utf8"),
+    privateKey,
     webhookSecret: requireEnv("GITHUB_WEBHOOK_SECRET"),
     port: Number(process.env.PORT || "8787"),
   }
@@ -182,7 +187,8 @@ const isMain = process.argv[1] && import.meta.url === pathToFileURL(path.resolve
 if (isMain) {
   const config = loadConfig()
   const server = createServer(config)
-  server.listen(config.port, "127.0.0.1", () => {
-    console.log(`listening on ${config.port}`)
+  const host = process.env.HOST || "0.0.0.0"
+  server.listen(config.port, host, () => {
+    console.log(`listening on ${host}:${config.port}`)
   })
 }

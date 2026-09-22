@@ -1,0 +1,14 @@
+{
+  "name": "agent-constraint-check",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GitHub App that fails a pull request when an agent weakens the quality bar.",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

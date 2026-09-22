@@ -165,15 +165,19 @@ function loadConfig() {
   const envFile = process.env.ACC_ENV
     || path.join(os.homedir(), ".agent-constraint-check", "service.env")
   loadEnvFile(envFile)
-  let privateKey = process.env.GITHUB_PRIVATE_KEY
-  if (!privateKey) {
+  let privateKey = ""
+  if (process.env.GITHUB_PRIVATE_KEY_B64) {
+    privateKey = Buffer.from(process.env.GITHUB_PRIVATE_KEY_B64, "base64").toString("utf8")
+  } else if (process.env.GITHUB_PRIVATE_KEY) {
+    privateKey = process.env.GITHUB_PRIVATE_KEY.replace(/\\n/g, "\n")
+  } else {
     const keyPath = requireEnv("GITHUB_PRIVATE_KEY_PATH")
     if (!fs.existsSync(keyPath)) {
       throw new Error(`Private key file not found at ${keyPath}`)
     }
     privateKey = fs.readFileSync(keyPath, "utf8")
   }
-  privateKey = privateKey.replace(/\\n/g, "\n")
+  privateKey = privateKey.replace(/\r\n/g, "\n").trim() + "\n"
   return {
     appId: requireEnv("GITHUB_APP_ID"),
     privateKey,

@@ -8,9 +8,11 @@ One installation covers one repository. The check looks for skipped tests, strip
 
 ## Status
 
-The app is installed on this repository. It does not post checks yet. That starts when the service and webhook are connected.
+The app is installed on this repository. A pull request gets a check named Agent Constraint Check. The check fails when the diff skips a test, strips an assertion, silences a lint, or leaves a stub.
 
-Stripe is set up for Apex Nexus Australis Pty Ltd. Live charges follow Stripe's review of that account.
+The webhook is running on this computer through a temporary public address. It stops when the computer sleeps. A permanent host has to replace that address before anyone else installs the app.
+
+Stripe test checkout is the page GitHub opens after install. Live charges follow Stripe's review of the Apex Nexus Australis Pty Ltd account.
 
 ## Permissions
 
